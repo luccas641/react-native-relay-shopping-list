@@ -1,0 +1,44 @@
+{
+  "name": "my-new-project",
+  "main": "node_modules/expo/AppEntry.js",
+  "private": true,
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "eject": "expo eject",
+    "test": "node ./node_modules/jest/bin/jest.js --watchAll",
+    "relay": "relay-compiler --src ./src --schema data/schema.graphql",
+    "relay:watch": "yarn relay -- --watch",
+    "storybook": "storybook start -p 7007"
+  },
+  "jest": {
+    "preset": "jest-expo"
+  },
+  "dependencies": {
+    "@expo/samples": "2.1.1",
+    "@expo/vector-icons": "^6.3.1",
+    "expo": "^30.0.1",
+    "native-base": "^2.8.0",
+    "react": "16.3.1",
+    "react-dom": "^16.5.2",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
+    "react-navigation": "^2.16.0",
+    "react-relay": "^1.6.2",
+    "styled-components": "^3.4.9"
+  },
+  "devDependencies": {
+    "babel-plugin-relay": "^1.6.2",
+    "graphql": "^14.0.2",
+    "jest-expo": "30.0.0",
+    "react-compiler": "^1.0.3",
+    "relay-compiler": "^1.6.2",
+    "@storybook/react-native": "^3.4.11",
+    "@storybook/addon-actions": "^3.4.11",
+    "@storybook/addon-links": "^3.4.11",
+    "@storybook/addons": "^3.4.11",
+    "babel-core": "^6.26.3",
+    "babel-runtime": "^6.26.0",
+    "prop-types": "^15.6.2"
+  }
+}
