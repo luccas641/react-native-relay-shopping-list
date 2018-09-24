@@ -19,7 +19,7 @@ async function fetchQuery(operation, variables, cacheConfig, uploadables) {
       'Authorization': `${token}`
     }
   }
-  return fetch('http://192.168.2.155:5000/graphql', {
+  return fetch('http://159.65.254.176:5000/graphql', {
     method: 'POST',
     headers: {
       Accept: 'application/json',

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "expo",
-    "description": "A very interesting project.",
+    "name": "ShoppingList",
+    "description": "Create ShoppingList with products barcodes!",
     "slug": "expo",
     "privacy": "public",
     "sdkVersion": "30.0.0",
