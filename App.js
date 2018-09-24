@@ -6,6 +6,7 @@ import AppNavigator from './src/navigation/AppNavigator';
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
+    token: null
   };
 
   render() {
@@ -20,8 +21,8 @@ export default class App extends React.Component {
     } else {
       return (
         <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />
+          {Platform.OS === 'ios' && <StatusBar barStyle="primary" />}
+          <AppNavigator screenProps={this.logout} />
         </View>
       );
     }

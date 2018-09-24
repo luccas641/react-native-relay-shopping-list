@@ -52,7 +52,7 @@ class ProductList extends Component<any, Props, State> {
       isFetchingTop: true,
     })
 
-    this.props.relay.refetchConnection(products.edges.length, (err) => {
+    this.props.relay.refetchConnection(10, (err) => {
       this.setState({
         isFetchingTop: false,
       });

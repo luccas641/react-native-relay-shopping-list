@@ -4,13 +4,15 @@ import {
 
 import UserList from '../screens/User/UserList';
 import UserDetail from '../screens/User/UserDetail';
-import UserCreate from '../screens/User/UserCreate';
-import Login from '../screens/User/Login';
 import ProductList from '../screens/Product/ProductList';
 import ProductScan from '../screens/Product/ProductScan';
 import ProductDetail from '../screens/Product/ProductDetail';
 import ShoppingLists from '../screens/ShoppingList/ShoppingLists';
 import ShoppingListDetail from '../screens/ShoppingList/ShoppingListDetail';
+import ShoppingListCreate from '../screens/ShoppingList/ShoppingListCreate';
+
+import Login from '../screens/User/Login';
+import UserCreate from '../screens/User/UserCreate';
 
 export default createStackNavigator({
   // You could add another route here for authentication.
@@ -20,12 +22,6 @@ export default createStackNavigator({
   },
   UserDetail: {
     screen: UserDetail
-  },
-  UserCreate: {
-    screen: UserCreate
-  },
-  Login: {
-    screen: Login
   },
   ProductDetail: {
     screen: ProductDetail
@@ -42,6 +38,15 @@ export default createStackNavigator({
   ShoppingLists: {
     screen: ShoppingLists
   },
+  ShoppingListCreate: {
+    screen: ShoppingListCreate
+  },
+  UserCreate: {
+    screen: UserCreate
+  },
+  Login: {
+    screen: Login
+  }
 }, {
   initialRouteName: 'Login',
 });

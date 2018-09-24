@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { withNavigation } from 'react-navigation';
+import { withNavigation, NavigationEvents } from 'react-navigation';
 import { StyleSheet,Text, Image, View,
   FlatList, TouchableHighlight } from 'react-native';
 import { Container, Content, Header, Left, Right, Body, Icon, Title, Button} from 'native-base'
@@ -27,7 +27,7 @@ type State = {
 @withNavigation
 class ShoppingListDetail extends Component<void, Props, any> {
   static navigationOptions = {
-    title: 'ShoppingListDetail',
+    title: 'Detail',
   };
   state = {
     isFetchingTop: false,
@@ -66,27 +66,17 @@ class ShoppingListDetail extends Component<void, Props, any> {
 
   goToScanProduct = user => {
     const { navigate } = this.props.navigation;
-    console.log('antes',this.props.query.shoppingList)
     navigate('ProductScan', {shoppingList: this.props.query.shoppingList});
   };
 
   render() {
     const { shoppingList } = this.props.query;
     return (
-      <Container>
-        <Header>
-          <Left/>
-          <Body>
-            <Title>{shoppingList.name}</Title>
-          </Body>
-          <Right>
-            <Button transparent  onPress={() => this.goToScanProduct()}>
-              <Icon name='search' />
-            </Button>
-          </Right>
-        </Header>
-        <Content>
-        <FlatList
+      <View style={styles.container}>
+       <NavigationEvents
+          onWillFocus={this.onRefresh}
+        />
+        {shoppingList ? <FlatList
           data={shoppingList.items}
           renderItem={this.renderItem}
           onRefresh={this.onRefresh}
@@ -94,9 +84,12 @@ class ShoppingListDetail extends Component<void, Props, any> {
           keyExtractor={item => item.product.id.toString()}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           ListFooterComponent={this.renderFooter}
-        />
-      </Content>
-      </Container>
+        /> : <View></View>}
+        
+        <Button full primary onPress={() => this.goToScanProduct()}>
+          <Icon name='search' />
+        </Button>
+      </View>
     );
   }
 }
@@ -156,8 +149,7 @@ const ShoppingListDetailQueryRenderer = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
   separator: {
     height: 1,

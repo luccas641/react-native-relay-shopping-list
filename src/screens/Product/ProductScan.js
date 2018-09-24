@@ -29,7 +29,7 @@ type State = {
 @withNavigation
 class ProductScan extends Component<any, Props, State> {
   static navigationOptions = {
-    title: 'ProductScan',
+    title: 'Scan Barcode',
   };
 
   state = {
@@ -85,7 +85,6 @@ class ProductScan extends Component<any, Props, State> {
   };
   
   render() {
-    console.log(this.props.navigation.state.params)
     return (
       <View style={{ flex: 1 }}>
         <BarCodeScanner

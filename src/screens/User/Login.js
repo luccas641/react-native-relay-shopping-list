@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { withNavigation } from 'react-navigation';
 import {Constants} from 'expo'
-import { AsyncStorage } from "react-native"
+import { AsyncStorage, StyleSheet, View } from "react-native"
 import UserLoginWithEmailMutation from '../../mutations/UserLoginWithEmail';
 import {
   Container,
@@ -38,9 +38,11 @@ export default class Login extends Component {
     }
 
     const onCompleted = (res) => {
-      const { navigate } = this.props.navigation;
-      AsyncStorage.setItem("TOKEN", res.UserLoginWithEmail.token);
-      navigate('ShoppingLists'); 
+      const { replace } = this.props.navigation;
+      if(res.UserLoginWithEmail.token) {
+        AsyncStorage.setItem("TOKEN", res.UserLoginWithEmail.token);
+        replace('ShoppingLists'); 
+      }      
     }
 
     const onError = (err) => {
@@ -51,11 +53,16 @@ export default class Login extends Component {
   }
 
   componentWillMount = async () => {
-    const { navigate } = this.props.navigation;
+    const { replace } = this.props.navigation;
     let token = await AsyncStorage.getItem("TOKEN")
     if(token !== null) {
-      navigate('ShoppingLists'); 
+      replace('ShoppingLists'); 
     }
+  }
+
+  goToRegister = () => {
+    const { navigate } = this.props.navigation;
+    navigate('UserCreate');
   }
 
   state = {
@@ -65,27 +72,38 @@ export default class Login extends Component {
   render() {
     const { email, password } = this.state;
     return (
-      <Container style={{ paddingTop: Constants.statusBarHeight }}>
-        <Form>
-          <FormItem floatingLabel>
-            <Label>Email</Label>
-            <Input value={email}
-              onChangeText={value => this.setState({ email: value })}/>
-          </FormItem>
-          <FormItem floatingLabel last>
-            <Label>Password</Label>
-            <Input secureTextEntry={true} value={password}
-              onChangeText={value => this.setState({ password: value })}  />
-          </FormItem>
-
+      <Container style={styles.container}>
+        <Form style={styles.container}>
+          <View>
+            <FormItem floatingLabel>
+              <Label>Email</Label>
+              <Input value={email}
+                onChangeText={value => this.setState({ email: value })}/>
+            </FormItem>
+            <FormItem floatingLabel last>
+              <Label>Password</Label>
+              <Input secureTextEntry={true} value={password}
+                onChangeText={value => this.setState({ password: value })}  />
+            </FormItem>
+          </View>
+          <View>
           <Button 
             onPress={() => this.handleLogin()}
             full primary style={{ paddingBottom: 4 }}>
             <Text> Login </Text>
           </Button>
-          <Button full light default><Text> Sign Up </Text></Button>
+          <Button full light default onPress={() => this.goToRegister()}><Text> Sign Up </Text></Button>
+          </View>
+          
         </Form>
       </Container>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-between'
+  }
+});

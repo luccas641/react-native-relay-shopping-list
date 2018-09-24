@@ -7,8 +7,9 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   FlatList,
+  AsyncStorage,
 } from 'react-native';
-import { withNavigation } from 'react-navigation';
+import { withNavigation , NavigationEvents} from 'react-navigation';
 import hoistStatics from 'hoist-non-react-statics';
 import environment from '../../createRelayEnvironment';
 
@@ -34,7 +35,7 @@ type State = {
 @withNavigation
 class ShoppingLists extends Component<any, Props, State> {
   static navigationOptions = {
-    title: 'ShoppingLists',
+    title: 'My Lists',
   };
 
   state = {
@@ -53,7 +54,7 @@ class ShoppingLists extends Component<any, Props, State> {
       isFetchingTop: true,
     })
 
-    this.props.relay.refetchConnection(shoppingLists.edges.length, (err) => {
+    this.props.relay.refetchConnection(10, (err) => {
       this.setState({
         isFetchingTop: false,
       });
@@ -78,7 +79,7 @@ class ShoppingLists extends Component<any, Props, State> {
     return (
       <TouchableHighlight
         onPress={() => this.goToShoppingListDetail(node)}
-        underlayColor="whitesmoke"
+        underlayColor="white"
       >
         <View style={styles.shoppingListContainer}>
           <Text>{node.name}</Text>
@@ -93,12 +94,27 @@ class ShoppingLists extends Component<any, Props, State> {
     navigate('ShoppingListDetail', { id: shoppingList._id });
   };
 
+
+  goToNew = shoppingList => {
+    const { navigate } = this.props.navigation;
+
+    navigate('ShoppingListCreate');
+  };
+
+  logout = () => {
+    const { replace } = this.props.navigation;
+    AsyncStorage.removeItem('TOKEN')
+    replace('Login');
+  }
+
   render() {
     const { shoppingLists } = this.props.query;
 
     return (
-      <View>
-        <Button block><Text>New List</Text></Button>
+      <View style={styles.container}>
+        <NavigationEvents
+          onWillFocus={this.onRefresh}
+        />
         <FlatList
           data={shoppingLists.edges}
           renderItem={this.renderItem}
@@ -109,6 +125,12 @@ class ShoppingLists extends Component<any, Props, State> {
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           ListFooterComponent={this.renderFooter}
         />
+        <Button full primary onPress={() => this.goToNew()}
+          ><Text>New List</Text>
+          </Button>
+        <Button full default  onPress={() => this.logout()}
+          ><Text>Logout</Text>
+          </Button>
         </View>
     );
   }
@@ -199,6 +221,7 @@ export default hoistStatics(ShoppingListsQueryRenderer, ShoppingLists);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'space-between'
   },
   separator: {
     height: 1,

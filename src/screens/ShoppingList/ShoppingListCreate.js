@@ -5,33 +5,28 @@ import { withNavigation } from 'react-navigation';
 import styled from 'styled-components/native';
 
 import { Container, Header, Content, Button, Text, Input } from 'native-base';
-import UserRegisterWithEmailMutation from '../../mutations/UserRegisterWithEmail';
+import ShoppingListNew from '../../mutations/ShoppingListNew';
 
 type State = {
-  name: string,
-  email: string,
-  password: string,
+  name: string
 };
 
 @withNavigation
 class UserCreate extends Component<any, Props, State> {
   static navigationOptions = {
-    title: 'Register',
+    title: 'New Shopping List',
   };
 
   handleRegister = () => {
-    const { name, email, password } = this.state;
+    const { name } = this.state;
 
     const input = {
-      name,
-      email,
-      password,
+      name
     }
 
     const onCompleted = (res) => {
-      console.log(res)
       const { navigate } = this.props.navigation;
-      navigate('Login');
+      navigate('ShoppingLists');
       
     }
 
@@ -39,13 +34,11 @@ class UserCreate extends Component<any, Props, State> {
       console.log('onError');
     }
 
-    UserRegisterWithEmailMutation.commit(input, onCompleted, onError);
+    ShoppingListNew.commit(input, onCompleted, onError);
   }
 
   state = {
     name: '',
-    email: '',
-    password: '',
   };
 
   render() {
@@ -59,21 +52,9 @@ class UserCreate extends Component<any, Props, State> {
           value={name}
           onChangeText={value => this.setState({ name: value })}
         />
-        <Input
-          name="email"
-          placeholder="Email"
-          value={email}
-          onChangeText={value => this.setState({ email: value })}
-        />
-        <Input
-          name="password"
-          placeholder="Password"
-          value={password}
-          onChangeText={value => this.setState({ password: value })}
-          secureTextEntry
-        />
+      
         <Button block onPress={() => this.handleRegister()}>
-          <Text>Register</Text>
+          <Text>Add</Text>
         </Button>
       </Content>
       </Container>
